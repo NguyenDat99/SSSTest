@@ -1,0 +1,102 @@
+version: '1'
+services:
+  redis:
+    container_name: sss_redis
+    image: redis:latest
+    hostname: redis
+  rabbit:
+    hostname: rabbit
+    container_name: sss_rabit
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=SSS_user
+      - RABBITMQ_DEFAULT_PASS=SSS_pwd111
+  postgresdb:
+    image: postgres:15.1-alpine3.16
+    ports:
+      - "5432:5432"
+    container_name: sss_postgres
+    environment:
+      - POSTGRES_USER=sssUser
+      - POSTGRES_PASSWORD=sssPwd123
+      - POSTGRES_DB=sssDb
+  web_host:
+    container_name: sss_web_host
+    build:
+      context: ./Src/WebApp
+      dockerfile: Dockerfile
+    hostname: web
+    restart: unless-stopped
+    working_dir: /app/Src/WebApp
+    command: python3 main.py --watch
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    links:
+      - rabbit
+      - redis
+    depends_on:
+      - rabbit
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webhost.rule=Host(`webhost.localhost`)"
+      - "traefik.http.routers.webhost.entrypoints=web"
+  web_api:
+    container_name: sss_web_api
+    build:
+      context: ./Src/ApiServer
+      dockerfile: Dockerfile
+    hostname: web
+    restart: unless-stopped
+    working_dir: /app/Src/ApiServer
+    command:  python3 main.py --watch
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    links:
+      - rabbit
+      - redis
+      - postgresdb
+    depends_on:
+      - rabbit
+      - redis
+      - postgresdb
+      - worker
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webapi.rule=Host(`webapi.localhost`)"
+      - "traefik.http.routers.webapi.entrypoints=web"
+  worker:
+    container_name: sss_worker
+    build:
+      context: ./Src/Worker
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /app/Src/Worker
+    command: celery -A tasks worker -l info
+    volumes:
+      - .:/app
+    links:
+      - rabbit
+      - redis
+      - postgresdb
+    depends_on:
+      - rabbit
+      - redis
+      - postgresdb
+  traefik:
+    image: "traefik:v2.9"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8000:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    

@@ -1,0 +1,428 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "SSSApi",
+    "version": "1.0.0",
+    "title": "SSSApi",
+    "license": {
+      "name": "Github",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "tags": [
+    {
+      "name": "LIST APIs",
+      "description": "LIST APIs"
+    }
+  ],
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "App": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "get-top-domains": {
+        "type": "object",
+        "properties": {
+          "time_by_the_hour": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string",
+            "description": "ex:2022-12-16 00:29:30.0000"
+          }
+        }
+      },
+      "CreateLogs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "url": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string",
+              "description": "ex:2022-12-16 00:29:30.0000"
+            }
+          }
+        }
+      },
+      "UpdateLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "new_log": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "url": {
+                "type": "string"
+              },
+              "time": {
+                "type": "string",
+                "description": "ex:2022-12-16 00:29:30.0000"
+              }
+            }
+          }
+        }
+      },
+      "UpdateLogs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "new_log": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string",
+                  "description": "ex:2022-12-16 00:29:30.0000"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeleteLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "DeleteLogs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "update": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "completed": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/log": {
+      "post": {
+        "tags": [
+          "Add a log"
+        ],
+        "summary": "Add a log to the database",
+        "requestBody": {
+          "description": "Add a log to the database",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "schema": {
+              "$ref": ""
+            }
+          },
+          "400": {
+            "description": "FAILURE",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Edit a log"
+        ],
+        "summary": "Update a log",
+        "requestBody": {
+          "description": "Update a log",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          },
+          "400": {
+            "description": "FAILURE",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Delete a log"
+        ],
+        "summary": "Delete a log",
+        "requestBody": {
+          "description": "Delete a log",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteLog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          },
+          "400": {
+            "description": "FAILURE",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      }
+    },
+    "/logs": {
+      "post": {
+        "tags": [
+          "Add log records"
+        ],
+        "summary": "Add log records",
+        "requestBody": {
+          "description": "Add log records",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLogs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "[SUCCESS]",
+            "schema": {
+              "$ref": ""
+            }
+          },
+          "400": {
+            "description": "[FAILURE]",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Edit log records"
+        ],
+        "summary": "Edit log records",
+        "requestBody": {
+          "description": "Edit log records",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLogs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "[SUCCESS]",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          },
+          "404": {
+            "description": "[FAILURE]",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Delete log records"
+        ],
+        "requestBody": {
+          "description": "Delete log records",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteLogs"
+              }
+            }
+          }
+        },
+        "summary": "Delete log records",
+        "responses": {
+          "200": {
+            "description": "[SUCCESS]",
+            "schema": {
+              "$ref": "#/components/schemas/DeleteLogs"
+            },
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "[FAILURE]",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      }
+    },
+    "/get-top-domains": {
+      "get": {
+        "tags": [
+          "Top distinct domains visited"
+        ],
+        "summary": "Top distinct domains visited",
+        "requestBody": {
+          "description": "Top distinct domains visited",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get-top-domains"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "object",
+            "schema": {
+              "$ref": ""
+            }
+          },
+          "400": {
+            "description": "[FAILURE]",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      }
+    },
+    "/get-new-domains": {
+      "get": {
+        "tags": [
+          "List new domains visited"
+        ],
+        "summary": "List new domains visited",
+        "requestBody": {
+          "description": "List new domains visited",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get-top-domains"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "object",
+            "schema": {
+              "$ref": "#/components/schemas/ResponseOk"
+            }
+          },
+          "400": {
+            "description": "[FAILURE]",
+            "schema": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      }
+    }
+  }
+}
