@@ -1,4 +1,5 @@
 FROM python:latest
-COPY . /app/
-WORKDIR /app/Src/WebApp
+COPY . /app2
+WORKDIR /app2
 RUN pip install -r requirements.txt
+

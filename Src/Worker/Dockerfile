@@ -1,5 +1,5 @@
 FROM python:latest
-COPY . /app/
-WORKDIR /app/Src/Worker
+COPY . /app3
+WORKDIR /app3
 RUN pip install -U celery
 RUN pip install -r requirements.txt
