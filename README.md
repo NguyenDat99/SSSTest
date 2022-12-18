@@ -46,8 +46,12 @@ int SumOfOddNumbers(int a, int b)
 ```
 
 # Question 2
+
+![Architecture](https://github.com/NguyenDat99/SSSTest/blob/main/Src/image.jpg)
+
 Project structure
 -----------------
+
 Application parts are:
 ```
 └── Src
