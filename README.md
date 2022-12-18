@@ -72,7 +72,7 @@ Application parts are:
 ```
 First, clone source from github:
 ```
-    git clone https://github.com/NguyenDat99/SSSTest.git
+git clone https://github.com/NguyenDat99/SSSTest.git
 ```
 
 To run the web application in debug use:
