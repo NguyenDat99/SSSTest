@@ -82,18 +82,18 @@ docker compose up -d
 
 Web application server URL:
 ```
-webhost.localhost
+http://webhost.localhost
 ```
 
 Web application API server URL:
 ```
-webapi.localhost
+http://webapi.localhost
 ```
 Swagger:
 ```
-webapi.localhost/swagger
+http://webapi.localhost/swagger
 ```
 API gateway dashboard:
 ```
-webapi.localhost:8000
+http://webapi.localhost:8000
 ```
